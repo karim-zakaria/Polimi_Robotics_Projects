@@ -1,0 +1,34 @@
+<launch>
+
+<!--Sim time set -->
+<param name="/use_sim_time" value="true"/>
+
+<!--pointcloud to laserscan conversion -->
+<node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan">
+      <remap from="cloud_in" to="/os1_cloud_node/points"/>
+      <remap from="scan" to="/lidar/scan" />
+      <rosparam>
+        target_frame: os1_lidar
+        transform_tolerance: 0.01
+        min_height: 0.0
+        max_height: 1.0
+        
+        angle_min: -1.5708
+        angle_max: 1.5708
+        angle_increment: 0.01
+        scan_time: 0.03333
+        range_min: 0.3
+        range_max: 100.0
+        use_inf: true
+        concurrency_level: 1
+      </rosparam>
+    </node>
+
+<!--Static lidar cam transform -->
+<node pkg="tf" type="static_transform_publisher" name="camera_lidar_broadcaster" args="-0.675 -0.008 0.96 0 0 0 1  camera_pose_frame os1_sensor 100" />
+
+ <!-- Gmapping -->
+  <include file="$(find p2_10720253)/launch/visual_odom_gmapping.launch.xml"/> 
+
+</launch>
+

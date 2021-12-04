@@ -1,0 +1,16 @@
+<launch>
+  <param name="origin_lat" type="double" value="45.621668"  />
+  <param name="origin_long" type="double" value="9.281553"  />
+  <param name="origin_alt" type="double" value="224.573796"  />
+  <param name="thresh1" type="double" value="1"  />
+  <param name="thresh2" type="double" value="5"  />
+  <group ns="car_convert">
+    <node pkg="project_1" name="convert" type="converter" args="0"/>
+  </group>
+
+  <group ns="obs_convert">
+    <node pkg="project_1" name="convert" type="converter" args="1"/>
+  </group>
+  <node pkg="project_1" name="distServer" type="distServer"/>
+  <node pkg="project_1" name="customMessagePub" type="customMessagePub"/>
+</launch>
